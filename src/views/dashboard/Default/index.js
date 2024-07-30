@@ -1,59 +1,47 @@
 import { useEffect, useState } from 'react';
 
 // material-ui
-import { Grid } from '@mui/material';
-
-// project imports
-import EarningCard from './EarningCard';
-import PopularCard from './PopularCard';
-import TotalOrderLineChartCard from './TotalOrderLineChartCard';
-import TotalIncomeDarkCard from './TotalIncomeDarkCard';
-import TotalIncomeLightCard from './TotalIncomeLightCard';
-import TotalGrowthBarChart from './TotalGrowthBarChart';
-import { gridSpacing } from 'store/constant';
+import { Box, Grid, styled } from '@mui/material';
+ 
+import Breadcrumb from 'ui-component/Breadcrumb';
+import { capitalizeFirstLetter } from 'utils/helper';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
-  const [isLoading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+    const title = 'Dashboard';
+    const [isLoading, setLoading] = useState(true);
+    const [countData, setCountData] = useState({'products': 0, 'categories': 0, 'subCategories': 0, 'productRequest': 0});
 
-  return (
-    <Grid container spacing={gridSpacing}>
-      <Grid item xs={12}>
-        <Grid container spacing={gridSpacing}>
-          <Grid item lg={4} md={6} sm={6} xs={12}>
-            <EarningCard isLoading={isLoading} />
-          </Grid>
-          <Grid item lg={4} md={6} sm={6} xs={12}>
-            <TotalOrderLineChartCard isLoading={isLoading} />
-          </Grid>
-          <Grid item lg={4} md={12} sm={12} xs={12}>
-            <Grid container spacing={gridSpacing}>
-              <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeDarkCard isLoading={isLoading} />
-              </Grid>
-              <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeLightCard isLoading={isLoading} />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container spacing={gridSpacing}>
-          <Grid item xs={12} md={8}>
-            <TotalGrowthBarChart isLoading={isLoading} />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <PopularCard isLoading={isLoading} />
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
-  );
+    const Container = styled('div')(({ theme }) => ({
+        margin: '30px',
+        [theme.breakpoints.down('sm')]: { margin: '16px' },
+        '& .breadcrumb': {
+            marginBottom: '30px',
+            [theme.breakpoints.down('sm')]: { marginBottom: '16px' }
+        }
+    }));
+
+    const LogoImg = styled('img')(({ theme }) => ({
+        animation: 'rotateAnimation 1s infinite',
+
+        '@keyframes rotateAnimation': {
+            from: {
+                transform: 'rotateY(45deg)'
+            },
+            to: {
+                transform: 'rotateY(225deg)'
+            }
+        }
+    })); 
+
+    return (
+        <Container>
+            <Box className="breadcrumb">
+                <Breadcrumb routeSegments={[{ name: capitalizeFirstLetter(title), path: '/' + title }]} />
+            </Box> 
+        </Container>
+    );
 };
 
 export default Dashboard;

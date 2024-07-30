@@ -11,22 +11,33 @@ import themes from 'themes';
 
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
- 
+import { AlertProvider } from 'contexts/AlertContext';
+import { SnackbarProvider } from 'contexts/SnackbarContext';
+import { AuthProvider } from 'contexts/AuthContext';
+import useAuth from 'hooks/useAuth';
+
 // ==============================|| APP ||============================== //
 
 const App = () => {
-  const customization = useSelector((state) => state.customization);
+    const customization = useSelector((state) => state.customization);
+    const { isInitialised } = useAuth();
 
-  return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={themes(customization)}>
-        <CssBaseline />
-        <NavigationScroll>
-          <Routes />
-        </NavigationScroll>
-      </ThemeProvider>
-    </StyledEngineProvider>
-  );
+    return (
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={themes(customization)}>
+                <AlertProvider>
+                    <SnackbarProvider>
+                        <CssBaseline />
+                        <NavigationScroll>
+                            <AuthProvider>
+                                <Routes />
+                            </AuthProvider>
+                        </NavigationScroll>
+                    </SnackbarProvider>
+                </AlertProvider>
+            </ThemeProvider>
+        </StyledEngineProvider>
+    );
 };
 
 export default App;
