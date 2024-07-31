@@ -117,7 +117,7 @@ const EmiForm = ({ handleSubmit, tableData }) => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Sub Category Name"
+                      label="Customer Name"
                       name="category"
                       value={state?.customer?.name ?? ""}
                       variant="outlined"
