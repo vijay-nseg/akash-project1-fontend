@@ -5,8 +5,8 @@ import useSnackbar from "hooks/useSnackbar";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { adminList } from "services/api/admin";
-import { selectAdmin } from "store/admin/admin.selector";
+import { customerList } from "services/api/customer";
+import { selectCustomer } from "store/customer/customer.selector";
 
 const EmiForm = ({ handleSubmit, tableData }) => {
   const [state, setState] = useState({ ...tableData });
@@ -26,7 +26,7 @@ const EmiForm = ({ handleSubmit, tableData }) => {
     setLoading(true);
 
     try {
-      adminList().then((res) => {
+      customerList().then((res) => {
         // console.log(res.data.data);
         setCustomers(res.data.data);
         setLoading(false);
@@ -35,7 +35,7 @@ const EmiForm = ({ handleSubmit, tableData }) => {
       setLoading(false);
     }
   }, []);
-  //   const customers = useSelector(selectAdmin);
+  //   const customers = useSelector(selectCustomer);
   const handleFormSubmit = async (values, { setFieldError }) => {
     setLoading(true);
     await handleSubmit(values)

@@ -1,0 +1,5 @@
+const CUSTOMER_ACTION_TYPES = {
+  LOAD_CUSTOMERS: 'customer/LOAD_CUSTOMERS',
+};
+
+export default CUSTOMER_ACTION_TYPES;

@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-const AdminForm = ({ handleSubmit, tableData }) => {
+const CustomerForm = ({ handleSubmit, tableData }) => {
     const [state, setState] = useState({...tableData, password: ''});
 
     const [loading, setLoading] = useState(false);
@@ -28,7 +28,7 @@ const AdminForm = ({ handleSubmit, tableData }) => {
         await handleSubmit(values).then((res) => {
             openSnackbar("success", res.data.message)
             setLoading(false);
-            navigate("/admins");
+            navigate("/customers");
         }).catch((e) => {
             if (e.response.status == 422) {
                 console.log(e.response.data.message);
@@ -169,4 +169,4 @@ const AdminForm = ({ handleSubmit, tableData }) => {
     );
 };
 
-export default AdminForm;
+export default CustomerForm;

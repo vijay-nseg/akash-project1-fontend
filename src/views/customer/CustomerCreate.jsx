@@ -1,12 +1,12 @@
 import { styled } from "@mui/material";
 import { Box } from "@mui/system";
-import AdminForm from "./AdminForm";
+import CustomerForm from "./CustomerForm";
 import Breadcrumb from "ui-component/Breadcrumb";
 import { capitalizeFirstLetter } from "utils/helper";
-import { adminCreate } from "services/api/admin";
+import { customerCreate } from "services/api/customer";
 import SimpleCard from "ui-component/SimpleCard";
 
-const AdminCreate = () => {
+const CustomerCreate = () => {
     const title = 'customer';
 
     const Container = styled("div")(({ theme }) => ({
@@ -18,7 +18,7 @@ const AdminCreate = () => {
         },
     }));
 
-    const currentAdmin = { date: "", name: "", number: "",mudi: "", intreset: "",sum_of_intreset:"" }
+    const currentCustomer = { date: "", name: "", number: "",mudi: "", intreset: "",sum_of_intreset:"" }
 
     const handleSubmit = (state) => {
         // const formData = new FormData();
@@ -36,7 +36,7 @@ const AdminCreate = () => {
             // sum_of_intreset: state.sum_of_intreset,
           };
         
-        return adminCreate(formData);
+        return customerCreate(formData);
     };
 
 
@@ -47,10 +47,10 @@ const AdminCreate = () => {
                 <Breadcrumb routeSegments={[{ name: capitalizeFirstLetter(title), path: "/" + title }, { name: "Customer Create" }]} />
             </Box>
              <SimpleCard title="Customer Form">
-                 <AdminForm handleSubmit={handleSubmit} tableData={currentAdmin} />
+                 <CustomerForm handleSubmit={handleSubmit} tableData={currentCustomer} />
              </SimpleCard>
          </Container>
     );
 };
 
-export default AdminCreate;
+export default CustomerCreate;

@@ -6,7 +6,7 @@ import { capitalizeFirstLetter } from "utils/helper";
 import { emiCreate } from "services/api/emi";
 import SimpleCard from "ui-component/SimpleCard";
 import { useSelector } from "react-redux";
-import { selectAdmin } from "store/admin/admin.selector";
+import { selectCustomer } from "store/customer/customer.selector";
 import { useParams } from "react-router";
 
 const EmiCreate = () => {
@@ -22,7 +22,7 @@ const EmiCreate = () => {
   }));
   const { customerId } = useParams();
   let customer = "";
-  const customerState = useSelector(selectAdmin);
+  const customerState = useSelector(selectCustomer);
   if (customerId) {
     customer = customerState.filter((item) => item._id == customerId);
     customer=customer[0];

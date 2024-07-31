@@ -2,13 +2,13 @@ import { combineReducers } from "redux";
 
 // reducer import
 import customizationReducer from "./customizationReducer";
-import { AdminReducer } from "./admin/admin.reducer"; 
+import { CustomerReducer } from "./customer/customer.reducer"; 
 import { EmiReducer } from "./emi/emi.reducer";
 // ==============================|| COMBINE REDUCER ||============================== //
 
 const reducer = combineReducers({
   customization: customizationReducer,
-  admin: AdminReducer, 
+  customer: CustomerReducer, 
   emi:EmiReducer,
 });
 

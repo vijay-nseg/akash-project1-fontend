@@ -2,14 +2,14 @@ import { styled } from "@mui/material";
 import { Box } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import AdminForm from "./AdminForm";
+import CustomerForm from "./CustomerForm";
 import { capitalizeFirstLetter } from "utils/helper";
-import { adminUpdate } from "services/api/admin";
+import { customerUpdate } from "services/api/customer";
 import Breadcrumb from "ui-component/Breadcrumb";
-import { selectAdmin } from "store/admin/admin.selector";
+import { selectCustomer } from "store/customer/customer.selector";
 import SimpleCard from "ui-component/SimpleCard";
 
-const AdminUpdate = () => {
+const CustomerUpdate = () => {
   const title = "customer";
 
   const Container = styled("div")(({ theme }) => ({
@@ -22,11 +22,11 @@ const AdminUpdate = () => {
   }));
 
   const dispatch = useDispatch();
-  const { adminId } = useParams();
+  const { customerId } = useParams();
 
-  const adminState = useSelector(selectAdmin);
+  const customerState = useSelector(selectCustomer);
 
-  const currentAdmin = adminState.filter((item) => item._id == adminId);
+  const currentCustomer = customerState.filter((item) => item._id == customerId);
 
   const handleSubmit = (state) => {
     const formData = {
@@ -35,27 +35,27 @@ const AdminUpdate = () => {
       password: state.password,
     };
 
-    return adminUpdate(adminId, formData);
+    return customerUpdate(customerId, formData);
   };
-  console.log(currentAdmin);
+  console.log(currentCustomer);
   return (
     <Container>
       <Box className="breadcrumb">
         <Breadcrumb
           routeSegments={[
             { name: capitalizeFirstLetter(title), path: "/" + title },
-            { name: "Admin Update" },
+            { name: "Customer Update" },
           ]}
         />
       </Box>
-      <SimpleCard title="Admin Form">
-        <AdminForm
+      <SimpleCard title="Customer Form">
+        <CustomerForm
           handleSubmit={handleSubmit}
-          tableData={{ ...currentAdmin[0] }}
+          tableData={{ ...currentCustomer[0] }}
         />
       </SimpleCard>
     </Container>
   );
 };
 
-export default AdminUpdate;
+export default CustomerUpdate;

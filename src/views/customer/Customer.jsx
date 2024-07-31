@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import {
-  adminList,
-  adminsDelete,
-  adminsUpdateStatus,
-} from "services/api/admin";
-import { setAdminList } from "store/admin/admin.action";
-import { selectAdmin } from "store/admin/admin.selector";
+  customerList,
+  customersDelete,
+  customersUpdateStatus,
+} from "services/api/customer";
+import { setCustomerList } from "store/customer/customer.action";
+import { selectCustomer } from "store/customer/customer.selector";
 import SimpleSwitch from "ui-component/SimpleSwitch";
 import Datatable from "ui-component/tables/Datatable";
 import { isObjectEmpty } from "utils/helper";
@@ -18,7 +18,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
-const Admin = () => {
+const Customer = () => {
   const title = "customers";
 
   const dispatch = useDispatch();
@@ -35,9 +35,9 @@ const Admin = () => {
     setLoading(true);
 
     try {
-      adminList().then((res) => {
+      customerList().then((res) => {
         // console.log(res.data.data);
-        dispatch(setAdminList(res.data.data));
+        dispatch(setCustomerList(res.data.data));
         setLoading(false);
       });
     } catch (error) {
@@ -47,10 +47,10 @@ const Admin = () => {
 
   const deleteHandler = (id) => {
     try {
-      adminsDelete(id)
+      customersDelete(id)
         .then((res) => {
-          adminList().then((res) => {
-            dispatch(setAdminList(res.data.data));
+          customerList().then((res) => {
+            dispatch(setCustomerList(res.data.data));
           });
           openSnackbar("success", res.data.message);
         })
@@ -64,7 +64,7 @@ const Admin = () => {
 
   const handleEdit = (event, row) => {
     // console.log(row.rowData);
-    const url = "/admins/edit/" + row.rowData[0];
+    const url = "/customers/edit/" + row.rowData[0];
     navigate(url);
   };
   const addEmi = (event, row) => {
@@ -74,9 +74,9 @@ const Admin = () => {
   };
 
   // const handleStatusUpdate = (id, value) => {
-  //     adminsUpdateStatus(id).then((res) => {
-  //         adminList().then((res) => {
-  //             dispatch(setAdminList(res.data.result.data));
+  //     customersUpdateStatus(id).then((res) => {
+  //         customerList().then((res) => {
+  //             dispatch(setCustomerList(res.data.result.data));
   //         });
   //         openSnackbar("success", res.data.message)
   //     }).catch((error) => {
@@ -85,10 +85,10 @@ const Admin = () => {
   // }
 
   const handleDelete = (event, row) => {
-    updateState("Admin Delete", () => deleteHandler(row["rowData"][0]));
+    updateState("Customer Delete", () => deleteHandler(row["rowData"][0]));
   };
 
-  const admins = useSelector(selectAdmin);
+  const customers = useSelector(selectCustomer);
 
   const columns = [
     {
@@ -199,9 +199,9 @@ const Admin = () => {
     },
   ];
 
-  const data = isObjectEmpty(admins)
+  const data = isObjectEmpty(customers)
     ? []
-    : admins.map((item, index) => {
+    : customers.map((item, index) => {
         return [
           item._id,
           (index += 1),
@@ -234,9 +234,9 @@ const Admin = () => {
       columns={columns}
       options={options}
       isLoading={loading}
-      addHandler={() => navigate("/admins/create")}
+      addHandler={() => navigate("/customers/create")}
     />
   );
 };
 
-export default Admin;
+export default Customer;

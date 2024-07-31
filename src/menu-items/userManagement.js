@@ -21,7 +21,7 @@ const userManagement = {
             id: 'customer',
             title: 'Customer',
             type: 'item',
-            url: '/admins',
+            url: '/customers',
             icon: SupervisorAccountIcon,
             breadcrumbs: false
         },
