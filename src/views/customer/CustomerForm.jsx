@@ -1,139 +1,136 @@
 import { LoadingButton } from "@mui/lab";
-import {
-    Grid,
-    TextField,
-} from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { Formik } from "formik";
 import useSnackbar from "hooks/useSnackbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 const CustomerForm = ({ handleSubmit, tableData }) => {
-    const [state, setState] = useState({...tableData, password: ''});
+  const getTodayDate = () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const dd = String(today.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
+  const [state, setState] = useState({
+    ...tableData,
+    date: tableData.date || getTodayDate(),
+  });
 
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
-    const { openSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { openSnackbar } = useSnackbar();
 
-    const handleChange = (event) => {
-        event.persist();
-        setState({ ...state, [event.target.name]: event.target.value });
-        // console.log(state);
-    };
+  const handleChange = (event) => {
+    event.persist();
+    setState({ ...state, [event.target.name]: event.target.value });
+    // console.log(state);
+  };
 
+  const handleFormSubmit = async (values, { setFieldError }) => {
+    setLoading(true);
+    await handleSubmit(values)
+      .then((res) => {
+        openSnackbar("success", res.data.message);
+        setLoading(false);
+        navigate("/customers");
+      })
+      .catch((e) => {
+        if (e.response.status == 422) {
+          console.log(e.response.data.message);
+          setFieldError("name", e.response.data.message);
+          // Object.entries(e.response.data.result).forEach(
+          //     ([key, value]) => setFieldError(key, value)
 
-    const handleFormSubmit = async (values, { setFieldError }) => {
-        setLoading(true);
-        await handleSubmit(values).then((res) => {
-            openSnackbar("success", res.data.message)
-            setLoading(false);
-            navigate("/customers");
-        }).catch((e) => {
-            if (e.response.status == 422) {
-                console.log(e.response.data.message);
-                setFieldError('name', e.response.data.message)
-                // Object.entries(e.response.data.result).forEach(
-                //     ([key, value]) => setFieldError(key, value)
+          // );
+        }
+        setLoading(false);
+      });
+  };
 
-                // );
+  return (
+    <div>
+      <Formik onSubmit={handleFormSubmit} initialValues={state}>
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={6}>
+              <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+                <TextField
+                  type="date"
+                  name="date"
+                  id="date"
+                  value={values.date || ""}
+                  onChange={handleChange}
+                  // label="Date"
+                  helperText={touched.date && errors.date}
+                  error={Boolean(touched.date && errors.date)}
+                  fullWidth
+                />
+              </Grid>
 
-            }
-            setLoading(false);
-        });
-    };
+              <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+                <TextField
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={values.name}
+                  onChange={handleChange}
+                  helperText={touched.name && errors.name}
+                  error={Boolean(touched.name && errors.name)}
+                  label="Name"
+                  fullWidth
+                />
+              </Grid>
 
-    return (
-        <div>
-            <Formik
-                onSubmit={handleFormSubmit}
-                initialValues={state}
-            >
-                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
-                    <form onSubmit={handleSubmit}>
-
-                        <Grid container spacing={6}>
-
-                            <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-
-                                <TextField
-                                    type="date"
-                                    name="date"
-                                    id="date"
-                                    value={values.date || ""}
-                                    onChange={handleChange}
-                                    // label="Date"
-                                    helperText={touched.date && errors.date}
-                                    error={Boolean(touched.date && errors.date)}
-                                    fullWidth
-                                />
-
-                            </Grid>
-
-                            <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-                                <TextField
-                                    type="text"
-                                    name="name"
-                                    id="name"
-                                    value={values.name}
-                                    onChange={handleChange}
-                                    helperText={touched.name && errors.name}
-                                    error={Boolean(touched.name && errors.name)}
-                                    label="Name"
-                                    fullWidth
-                                />
-                            </Grid>
-
-
-                            <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-
-                                <TextField
-                                    type="number"
-                                    name="number"
-                                    id="number"
-                                    value={values.number}
-                                    onChange={handleChange}
-                                    label="Number"
-                                    helperText={touched.number && errors.number}
-                                    error={Boolean(touched.number && errors.number)}
-                                    fullWidth
-
-                                />
-
-                            </Grid>
-                            <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-
-                                <TextField
-                                    type="number"
-                                    name="mudi"
-                                    id="mudi"
-                                    value={values.mudi}
-                                    onChange={handleChange}
-                                    label="Mudi"
-                                    helperText={touched.mudi && errors.mudi}
-                                    error={Boolean(touched.mudi && errors.mudi)}
-                                    fullWidth
-
-                                />
-
-                            </Grid>
-                            <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-
-                                <TextField
-                                    type="number"
-                                    name="intreset"
-                                    id="intreset"
-                                    value={values.intreset}
-                                    onChange={handleChange}
-                                    label="Intreset"
-                                    helperText={touched.intreset && errors.intreset}
-                                    error={Boolean(touched.intreset && errors.intreset)}
-                                    fullWidth
-
-                                />
-
-                            </Grid>
-                            {/* <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+              <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+                <TextField
+                  type="number"
+                  name="number"
+                  id="number"
+                  value={values.number}
+                  onChange={handleChange}
+                  label="Number"
+                  helperText={touched.number && errors.number}
+                  error={Boolean(touched.number && errors.number)}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+                <TextField
+                  type="number"
+                  name="mudi"
+                  id="mudi"
+                  value={values.mudi}
+                  onChange={handleChange}
+                  label="Mudi"
+                  helperText={touched.mudi && errors.mudi}
+                  error={Boolean(touched.mudi && errors.mudi)}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+                <TextField
+                  type="number"
+                  name="intreset"
+                  id="intreset"
+                  value={values.intreset}
+                  onChange={handleChange}
+                  label="Intreset"
+                  helperText={touched.intreset && errors.intreset}
+                  error={Boolean(touched.intreset && errors.intreset)}
+                  fullWidth
+                />
+              </Grid>
+              {/* <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
 
                                 <TextField
                                     type="number"
@@ -149,24 +146,22 @@ const CustomerForm = ({ handleSubmit, tableData }) => {
                                 />
 
                             </Grid> */}
+            </Grid>
 
-                        </Grid>
-
-
-                        <LoadingButton
-                            type="submit"
-                            color="primary"
-                            loading={loading}
-                            variant="contained"
-                            sx={{ my: 4 }}
-                        >
-                            Submit
-                        </LoadingButton>
-                    </form>
-                )}
-            </Formik>
-        </div>
-    );
+            <LoadingButton
+              type="submit"
+              color="primary"
+              loading={loading}
+              variant="contained"
+              sx={{ my: 4 }}
+            >
+              Submit
+            </LoadingButton>
+          </form>
+        )}
+      </Formik>
+    </div>
+  );
 };
 
 export default CustomerForm;

@@ -9,8 +9,18 @@ import { customerList } from "services/api/customer";
 import { selectCustomer } from "store/customer/customer.selector";
 
 const EmiForm = ({ handleSubmit, tableData }) => {
-  const [state, setState] = useState({ ...tableData });
-  console.log(state,state.customer);
+  const getTodayDate = () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const dd = String(today.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
+  const [state, setState] = useState({
+    ...tableData,
+    date: tableData.date || getTodayDate(),
+  });
+  console.log(state, state.customer);
 
   const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState([]);
@@ -77,7 +87,7 @@ const EmiForm = ({ handleSubmit, tableData }) => {
                   id="date"
                   value={values.date || ""}
                   onChange={handleChange}
-                  // label="Date"
+                  label="Date"
                   helperText={touched.date && errors.date}
                   error={Boolean(touched.date && errors.date)}
                   fullWidth

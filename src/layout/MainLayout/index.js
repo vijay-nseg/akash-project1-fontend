@@ -77,10 +77,10 @@ const MainLayout = () => {
         dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
     };
 
-    useEffect(() => {
-        dispatch({ type: SET_MENU, opened: !matchDownMd });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [matchDownMd]);
+    // useEffect(() => {
+    //     dispatch({ type: SET_MENU, opened: !matchDownMd });
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [matchDownMd]);
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -102,7 +102,7 @@ const MainLayout = () => {
             </AppBar>
 
             {/* drawer */}
-            <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+            <Sidebar drawerOpen={!matchDownMd ? leftDrawerOpened : !leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
 
             {/* main content */}
             <Main theme={theme} open={leftDrawerOpened}>

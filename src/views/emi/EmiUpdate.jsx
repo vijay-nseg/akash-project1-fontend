@@ -10,7 +10,7 @@ import { selectEmi } from "store/emi/emi.selector";
 import SimpleCard from "ui-component/SimpleCard";
 
 const EmiUpdate = () => {
-  const title = "emi";
+  const title = "emis";
 
   const Container = styled("div")(({ theme }) => ({
     margin: "30px",

@@ -7,7 +7,7 @@ import { customerCreate } from "services/api/customer";
 import SimpleCard from "ui-component/SimpleCard";
 
 const CustomerCreate = () => {
-    const title = 'customer';
+    const title = 'customers';
 
     const Container = styled("div")(({ theme }) => ({
         margin: "30px",

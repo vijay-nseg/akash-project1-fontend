@@ -10,7 +10,7 @@ import { selectCustomer } from "store/customer/customer.selector";
 import SimpleCard from "ui-component/SimpleCard";
 
 const CustomerUpdate = () => {
-  const title = "customer";
+  const title = "customers";
 
   const Container = styled("div")(({ theme }) => ({
     margin: "30px",

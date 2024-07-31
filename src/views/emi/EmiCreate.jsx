@@ -10,7 +10,7 @@ import { selectCustomer } from "store/customer/customer.selector";
 import { useParams } from "react-router";
 
 const EmiCreate = () => {
-  const title = "emi";
+  const title = "emis";
 
   const Container = styled("div")(({ theme }) => ({
     margin: "30px",
