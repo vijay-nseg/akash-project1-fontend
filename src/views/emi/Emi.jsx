@@ -172,7 +172,7 @@ const Emi = () => {
           (index += 1),
           item?.date ?? "-",
           item?.amount ?? "-",
-          item?.customer?.name ?? "-",
+          item?.customer?.name+"( "+item?.customer?.number+" )" ?? "-",
           item?.is_completed == 1 ? "YES" : ("NO" ?? "-"),
           item?.created_at ?? "-",
         ];

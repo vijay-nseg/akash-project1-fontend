@@ -30,9 +30,12 @@ const CustomerUpdate = () => {
 
   const handleSubmit = (state) => {
     const formData = {
+      date: state.date,
       name: state.name,
-      email: state.email,
-      password: state.password,
+      number: state.number,
+      mudi: state.mudi,
+      intreset: state.intreset,
+      // sum_of_intreset: state.sum_of_intreset,
     };
 
     return customerUpdate(customerId, formData);

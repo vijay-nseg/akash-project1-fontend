@@ -68,7 +68,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
             <Typography
                 color="primary"
                 variant={matchDownSM ? 'h5' : 'h1'}            >
-                Akash
+                Akash powered by Vijay
             </Typography>
             &nbsp;
             &nbsp;
