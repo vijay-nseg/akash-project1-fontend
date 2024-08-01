@@ -4,11 +4,7 @@ import useSnackbar from "hooks/useSnackbar";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import {
-  emiList,
-  emisDelete,
-  emisUpdateStatus,
-} from "services/api/emi";
+import { emiList, emisDelete, emisUpdateStatus } from "services/api/emi";
 import { setEmiList } from "store/emi/emi.action";
 import { selectEmi } from "store/emi/emi.selector";
 import SimpleSwitch from "ui-component/SimpleSwitch";
@@ -17,7 +13,7 @@ import { isObjectEmpty } from "utils/helper";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 const Emi = () => {
   const title = "emi";
 
@@ -160,7 +156,7 @@ const Emi = () => {
                 }}
               >
                 <DeleteIcon color="secondary" />
-              </IconButton> 
+              </IconButton>
             </>
           );
         },
@@ -175,9 +171,9 @@ const Emi = () => {
           item._id,
           (index += 1),
           item?.date ?? "-",
-          item?.amount ?? "-", 
-          item?.customer?.name ?? "-", 
-          (item?.is_completed==1)?"YES":"NO" ?? "-",
+          item?.amount ?? "-",
+          item?.customer?.name ?? "-",
+          item?.is_completed == 1 ? "YES" : ("NO" ?? "-"),
           item?.created_at ?? "-",
         ];
       });
@@ -185,7 +181,10 @@ const Emi = () => {
   const options = {
     filterType: "textField",
     fixedHeader: true,
-    tableBodyHeight: "400px",
+    tableBodyHeight: "100%",
+    filterType: "dropdown",
+    responsive: "scrollMaxHeight",
+    rowsPerPageOptions: [10, 20, 50, 100],
   };
 
   return (

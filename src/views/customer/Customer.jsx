@@ -140,7 +140,7 @@ const Customer = () => {
     },
     {
       name: "jama_credit",
-      label: "Jama Credit",
+      label: "Jama (EMI)",
     },
     {
       name: "remain",
@@ -202,6 +202,7 @@ const Customer = () => {
   const data = isObjectEmpty(customers)
     ? []
     : customers.map((item, index) => {
+        console.log(item);
         return [
           item._id,
           (index += 1),
@@ -210,11 +211,11 @@ const Customer = () => {
           item?.number ?? "-",
           item?.mudi ?? "-",
           item?.intreset ?? "-",
-          item?.sum_of_intreset ?? "-",
-          item?.mudi + (item?.sum_of_intreset ?? 0) ?? "-",
+          item?.sum_of_intrest ?? "-",
+          item?.mudi + (item?.sum_of_intrest ?? 0) ?? "-",
           item?.jama_credit ?? "-",
           (item?.mudi ?? 0) +
-            (item?.sum_of_intreset ?? 0) -
+            (item?.sum_of_intrest ?? 0) -
             (item?.jama_credit ?? 0) ?? "-",
           item?.is_completed ?? "-",
           item?.created_at ?? "-",
@@ -224,7 +225,10 @@ const Customer = () => {
   const options = {
     filterType: "textField",
     fixedHeader: true,
-    tableBodyHeight: "400px",
+    tableBodyHeight: "100%",
+    filterType: 'dropdown',
+    responsive: 'scrollMaxHeight',
+    rowsPerPageOptions: [10, 20, 50, 100],
   };
 
   return (
