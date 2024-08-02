@@ -9,7 +9,7 @@ export default function SimpleSwitch({id, value, changeHandler}) {
   const handleChange = (name) => (event) => {
     setState({ ...state, [name]: event.target.checked });
     console.log(state.checked);
-    changeHandler(Number(id), state.checked)
+    changeHandler(id, state.checked)
   };
   
   return (

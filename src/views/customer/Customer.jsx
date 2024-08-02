@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import {
   customerList,
+  customerUpdate,
   customersDelete,
   customersUpdateStatus,
 } from "services/api/customer";
@@ -73,16 +74,24 @@ const Customer = () => {
     navigate(url);
   };
 
-  // const handleStatusUpdate = (id, value) => {
-  //     customersUpdateStatus(id).then((res) => {
-  //         customerList().then((res) => {
-  //             dispatch(setCustomerList(res.data.result.data));
-  //         });
-  //         openSnackbar("success", res.data.message)
-  //     }).catch((error) => {
-  //         openSnackbar("error", error.data.message)
-  //     });
-  // }
+  const handleStatusUpdate = (id, value) => {
+    // console.log(id);
+    // console.log(value);
+    const formData = {
+      is_completed: value?0:1,
+    };
+
+    customerUpdate(id, formData)
+      .then((res) => {
+        customerList().then((res) => {
+          dispatch(setCustomerList(res.data.data));
+        });
+        openSnackbar("success", res.data.message);
+      })
+      .catch((error) => {
+        openSnackbar("error", error.data.message);
+      });
+  };
 
   const handleDelete = (event, row) => {
     updateState("Customer Delete", () => deleteHandler(row["rowData"][0]));
@@ -98,7 +107,7 @@ const Customer = () => {
         display: false,
         download: false,
         filter: false,
-        sort: false,
+        sort: true,
       },
     },
     {
@@ -107,7 +116,7 @@ const Customer = () => {
         display: true,
         download: true,
         filter: false,
-        sort: false,
+        sort: true,
       },
     },
     {
@@ -150,11 +159,32 @@ const Customer = () => {
       name: "is_completed",
       label: "Is Completed",
       options: {
-        display: false,
-        download: false,
-        filter: false,
-        sort: false,
+        customBodyRender: (value, tableMeta) => {
+          // console.log(tableMeta["rowData"][0]);
+          // console.log(value);
+          return (
+            <SimpleSwitch
+              key={tableMeta["rowData"][0]}
+              id={tableMeta["rowData"][0]}
+              value={value}
+              changeHandler={(id, value) => handleStatusUpdate(id, value)}
+            />
+          );
+        },
+        filterType: "dropdown",
+        filterOptions: {
+          renderValue: (v) => (v == 1 ? "Active" : "Inactive"),
+        },
+        customFilterListOptions: {
+          render: (v) => (v == 1 ? "Active" : "Inactive"),
+        },
       },
+      // options: {
+      //   display: true,
+      //   download: false,
+      //   filter: false,
+      //   sort: false,
+      // },
     },
     {
       label: "Create Date",
@@ -199,6 +229,7 @@ const Customer = () => {
     },
   ];
 
+  console.log(customers);
   const data = isObjectEmpty(customers)
     ? []
     : customers.map((item, index) => {
@@ -226,8 +257,8 @@ const Customer = () => {
     filterType: "textField",
     fixedHeader: true,
     tableBodyHeight: "100%",
-    filterType: 'dropdown',
-    responsive: 'scrollMaxHeight',
+    filterType: "dropdown",
+    responsive: "scrollMaxHeight",
     rowsPerPageOptions: [10, 20, 50, 100],
   };
 

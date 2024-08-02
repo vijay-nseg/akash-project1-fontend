@@ -1,7 +1,7 @@
 import axios from "axios";
 import config from "config";
 const axiosClient = axios.create({
-  baseURL: "https://akash-project1.vercel.app/",
+  baseURL: "http://localhost:3000/",
   // headers: {
   //   Accept: "application/json",
   //   "Content-Type":
