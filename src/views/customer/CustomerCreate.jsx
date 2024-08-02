@@ -33,6 +33,7 @@ const CustomerCreate = () => {
             number: state.number,
             mudi: state.mudi,
             intreset: state.intreset,
+            remark: state.remark,
             // sum_of_intreset: state.sum_of_intreset,
           };
         

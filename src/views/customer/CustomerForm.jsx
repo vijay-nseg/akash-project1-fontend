@@ -130,6 +130,19 @@ const CustomerForm = ({ handleSubmit, tableData }) => {
                   fullWidth
                 />
               </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+                <TextField
+                  type="text"
+                  name="remark"
+                  id="remark"
+                  value={values.remark}
+                  onChange={handleChange}
+                  label="Remark"
+                  helperText={touched.remark && errors.remark}
+                  error={Boolean(touched.remark && errors.remark)}
+                  fullWidth
+                />
+              </Grid>
               {/* <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
 
                                 <TextField
