@@ -15,7 +15,7 @@ const AuthGuard = ({ children }) => {
   console.log('authenticated: '+ isAuthenticated)
 
   if (isInitialised) {
-    if (isAuthenticated || 1) {
+    if (isAuthenticated) {
       // User is authenticated, allow access to the protected route.
       return <>{children}</>;
     } else {

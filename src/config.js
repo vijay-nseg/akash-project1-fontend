@@ -7,7 +7,7 @@ const config = {
   defaultPath: "/session/signin",
   fontFamily: `'Poppins', sans-serif`,
   borderRadius: 12,
-  projectName: "Akash",
+  projectName: "Akash powered by:- Vijay",
   projectWebsite: "akash-project1-fontend.vercel.app",
   companyName: "Vijay Company", 
   // applicationUrl: "https://alshabi-api.tech-and-beyond.com/application/al-shabih-app.apk",
