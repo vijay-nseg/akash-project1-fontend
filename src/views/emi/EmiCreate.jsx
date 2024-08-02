@@ -41,6 +41,7 @@ const EmiCreate = () => {
       date: state.date,
       amount: state.amount,
       customer_id: state.customer_id,
+      remark: state.remark,
     };
 
     return emiCreate(formData);

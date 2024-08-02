@@ -93,7 +93,6 @@ const EmiForm = ({ handleSubmit, tableData }) => {
                   fullWidth
                 />
               </Grid>
-
               <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
                 <TextField
                   type="number"
@@ -107,7 +106,6 @@ const EmiForm = ({ handleSubmit, tableData }) => {
                   fullWidth
                 />
               </Grid>
-
               <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
                 <Autocomplete
                   options={customers}
@@ -139,8 +137,20 @@ const EmiForm = ({ handleSubmit, tableData }) => {
                   )}
                 />
               </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+                <TextField
+                  type="text"
+                  name="remark"
+                  id="remark"
+                  value={values.remark}
+                  onChange={handleChange}
+                  helperText={touched.remark && errors.remark}
+                  error={Boolean(touched.remark && errors.remark)}
+                  label="Remark"
+                  fullWidth
+                />
+              </Grid>{" "}
             </Grid>
-
             <LoadingButton
               type="submit"
               color="primary"
