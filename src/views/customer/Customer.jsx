@@ -74,11 +74,11 @@ const Customer = () => {
     navigate(url);
   };
 
-  const handleStatusUpdate = (id, value) => {
+  const handleUpdate = (id, value) => {
     // console.log(id);
     // console.log(value);
     const formData = {
-      is_completed: value?0:1,
+      is_completed: value ? 0 : 1,
     };
 
     customerUpdate(id, formData)
@@ -93,6 +93,10 @@ const Customer = () => {
       });
   };
 
+  const handleStatusUpdate = (id, value) => {
+    console.log(id, value);
+    updateState("Customer Complete", () => handleUpdate(id, value));
+  };
   const handleDelete = (event, row) => {
     updateState("Customer Delete", () => deleteHandler(row["rowData"][0]));
   };
@@ -111,49 +115,105 @@ const Customer = () => {
       },
     },
     {
-      name: "Sr.no.",
+      name: "sr_no.",
+      label: "Sr no.",
       options: {
         display: true,
         download: true,
-        filter: false,
+        filter: true,
         sort: true,
       },
     },
     {
       name: "data",
       label: "Date",
+      options: {
+        display: true,
+        download: true,
+        filter: true,
+        sort: true,
+      },
     },
     {
       name: "name",
       label: "Name",
+      options: {
+        filterType:'textField',
+        display: true,
+        download: true,
+        filter: true,
+        sort: true,
+      },
     },
     {
       name: "number",
       label: "Number",
+      options: {
+        display: true,
+        download: true,
+        filter: true,
+        sort: true,
+      },
     },
     {
       name: "mudi",
       label: "Mudi",
+      options: {
+        display: true,
+        download: true,
+        filter: true,
+        sort: true,
+      },
     },
     {
       name: "intrest",
       label: "Intrest Emi",
+      options: {
+        display: true,
+        download: true,
+        filter: true,
+        sort: true,
+      },
     },
     {
       name: "sum_intrest",
       label: "Sum of Intrest",
+      options: {
+        display: true,
+        download: true,
+        filter: true,
+        sort: true,
+      },
     },
     {
       name: "total",
       label: "total",
+      options: {
+        display: true,
+        download: true,
+        filter: true,
+        sort: true,
+      },
     },
     {
       name: "jama_credit",
       label: "Jama (EMI)",
+      options: {
+        display: true,
+        download: true,
+        filter: true,
+        sort: true,
+      },
     },
     {
       name: "remain",
       label: "Remain",
+      options: {
+        display: true,
+        download: true,
+        filter: true,
+        sort: true,
+      },
     },
     {
       name: "is_completed",
@@ -178,6 +238,10 @@ const Customer = () => {
         customFilterListOptions: {
           render: (v) => (v == 1 ? "Active" : "Inactive"),
         },
+        display: true,
+        filter: true,
+        download: true,
+        sort: true,
       },
       // options: {
       //   display: true,
@@ -229,11 +293,11 @@ const Customer = () => {
     },
   ];
 
-  console.log(customers);
+  // console.log(customers);
   const data = isObjectEmpty(customers)
     ? []
     : customers.map((item, index) => {
-        console.log(item);
+        // console.log(item);
         return [
           item._id,
           (index += 1),
@@ -260,8 +324,12 @@ const Customer = () => {
     filterType: "dropdown",
     responsive: "scrollMaxHeight",
     rowsPerPageOptions: [10, 20, 50, 100],
+    sortOrder: {
+      name: "Sr No.",
+      direction: "asc",
+    },
   };
-
+  console.log(data);
   return (
     <Datatable
       title={title}
