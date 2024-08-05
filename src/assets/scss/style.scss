@@ -33,7 +33,11 @@
         right: 0;
     }
 }
-
+.filter-form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
 .scrollbar-container.ps,
 .scrollbar-container > .ps {
     &.ps--active-y > .ps__rail-y {
@@ -52,7 +56,19 @@
         background-color: transparent;
     }
 }
-
+@media (max-width: 600px) {
+    .filter-form {
+        width: 100%;
+      }
+      .filter-item {
+        width: 100%;
+        margin-bottom: 16px;
+      }
+.tss-oeo5eo-MUIDataTableToolbar-filterPaper{
+    width: 100%;
+    max-width: 100% !important;
+}
+}
 // ==============================|| ANIMATION KEYFRAMES ||============================== //
 
 @keyframes wings {

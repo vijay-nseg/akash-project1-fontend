@@ -132,7 +132,7 @@ const Customer = () => {
       },
     },
     {
-      name: "data",
+      name: "date",
       label: "Date",
       options: {
         display: true,
@@ -187,7 +187,7 @@ const Customer = () => {
                     onChange(filterList[index], index, column);
                   }}
                   label="Start Date"
-                  style={{ width: "45%" }}
+                  style={{ width: "100%" }}
                   InputLabelProps={{
                     shrink: true,
                     style: { position: "relative", top: 20, marginRight: 8 },
@@ -200,12 +200,12 @@ const Customer = () => {
                     filterList[index][1] = event.target.value;
                     onChange(filterList[index], index, column);
                   }}
-                  label="End Date"
-                  style={{ width: "45%" }}
                   InputLabelProps={{
                     shrink: true,
                     style: { position: "relative", top: 20, marginRight: 8 },
                   }}
+                  label="End Date"
+                  style={{ width: "100%" }}
                 />
                 {/* <FormControlLabel
                   control={
@@ -722,7 +722,96 @@ const Customer = () => {
     {
       label: "Create Date",
       options: {
+        display: true,
+        download: true,
+        sort: true,
         filter: true,
+        filterType: "custom",
+        customFilterListOptions: {
+          render: (v) => {
+            console.log(v);
+            if (v[0] && v[1])
+              return [`Start Created Date: ${v[0]}`, `End Created Date: ${v[1]}`];
+            else if (v[0]) return `Start Created Date: ${v[0]}`;
+            else if (v[1]) return `End Created Date: ${v[1]}`;
+            return [];
+          },
+          update(filterList, filterPos, index) {
+            // console.log(filterList, filterPos, index);
+            if (filterPos === 0) {
+              filterList[index].splice(filterPos, 1, "");
+            } else if (filterPos === 1) {
+              filterList[index].splice(filterPos, 1);
+            } else if (filterPos === -1) {
+              filterList[index] = [];
+            }
+
+            return filterList;
+          },
+        },
+        filterOptions: {
+          name: [],
+          logic(date, filters) {
+            console.log(date, filters);
+            if (filters[0] && filters[1]) {
+              return date < filters[0] || date > filters[1];
+            } else if (filters[0]) {
+              return date < filters[0];
+            } else if (filters[1]) {
+              return date > filters[1];
+            }
+            return false;
+          },
+          display: (filterList, onChange, index, column) => (
+            <div>
+              <FormLabel>Date</FormLabel>
+              <FormGroup row>
+                <TextField
+                  type="date"
+                  value={filterList[index][0] || ""}
+                  onChange={(event) => {
+                    filterList[index][0] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  label="Start Created Date"
+                  style={{ width: "100%" }}
+                  InputLabelProps={{
+                    shrink: true,
+                    style: { position: "relative", top: 20, marginRight: 8 },
+                  }}
+                />
+                <TextField
+                  type="date"
+                  value={filterList[index][1] || ""}
+                  onChange={(event) => {
+                    filterList[index][1] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                    style: { position: "relative", top: 20, marginRight: 8 },
+                  }}
+                  label="End Created Date"
+                  style={{ width: "100%" }}
+                />
+                {/* <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state.ageFilterChecked}
+                      onChange={(event) =>
+                        setState({
+                          ageFilterChecked: event.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Separate Values"
+                  style={{ marginLeft: "0px" }}
+                /> */}
+              </FormGroup>
+            </div>
+          ),
+        },
       },
     },
     {
