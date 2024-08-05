@@ -1,4 +1,11 @@
-import { Button, Icon, IconButton } from "@mui/material";
+import {
+  Button,
+  FormGroup,
+  FormLabel,
+  Icon,
+  IconButton,
+  TextField,
+} from "@mui/material";
 import useAlert from "hooks/useAlert";
 import useSnackbar from "hooks/useSnackbar";
 import { useEffect, useState } from "react";
@@ -120,7 +127,7 @@ const Customer = () => {
       options: {
         display: true,
         download: true,
-        filter: true,
+        filter: false,
         sort: true,
       },
     },
@@ -130,15 +137,97 @@ const Customer = () => {
       options: {
         display: true,
         download: true,
-        filter: true,
         sort: true,
+        filter: true,
+        filterType: "custom",
+        customFilterListOptions: {
+          render: (v) => {
+            console.log(v);
+            if (v[0] && v[1])
+              return [`Start Date: ${v[0]}`, `End Date: ${v[1]}`];
+            else if (v[0]) return `Start Date: ${v[0]}`;
+            else if (v[1]) return `End Date: ${v[1]}`;
+            return [];
+          },
+          update(filterList, filterPos, index) {
+            // console.log(filterList, filterPos, index);
+            if (filterPos === 0) {
+              filterList[index].splice(filterPos, 1, "");
+            } else if (filterPos === 1) {
+              filterList[index].splice(filterPos, 1);
+            } else if (filterPos === -1) {
+              filterList[index] = [];
+            }
+
+            return filterList;
+          },
+        },
+        filterOptions: {
+          name: [],
+          logic(date, filters) {
+            console.log(date, filters);
+            if (filters[0] && filters[1]) {
+              return date < filters[0] || date > filters[1];
+            } else if (filters[0]) {
+              return date < filters[0];
+            } else if (filters[1]) {
+              return date > filters[1];
+            }
+            return false;
+          },
+          display: (filterList, onChange, index, column) => (
+            <div>
+              <FormLabel>Date</FormLabel>
+              <FormGroup row>
+                <TextField
+                  type="date"
+                  value={filterList[index][0] || ""}
+                  onChange={(event) => {
+                    filterList[index][0] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  label="Start Date"
+                  style={{ width: "45%" }}
+                  InputLabelProps={{
+                    shrink: true,
+                    style: { position: "relative", top: 4, marginRight: 8 },
+                  }}
+                />
+                <TextField
+                  type="date"
+                  value={filterList[index][1] || ""}
+                  onChange={(event) => {
+                    filterList[index][1] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  label="End Date"
+                  style={{ width: "45%" }}
+                />
+                {/* <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state.ageFilterChecked}
+                      onChange={(event) =>
+                        setState({
+                          ageFilterChecked: event.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Separate Values"
+                  style={{ marginLeft: "0px" }}
+                /> */}
+              </FormGroup>
+            </div>
+          ),
+        },
       },
     },
     {
       name: "name",
       label: "Name",
       options: {
-        filterType:'textField',
+        filterType: "textField",
         display: true,
         download: true,
         filter: true,
@@ -149,6 +238,7 @@ const Customer = () => {
       name: "number",
       label: "Number",
       options: {
+        filterType: "textField",
         display: true,
         download: true,
         filter: true,
@@ -161,8 +251,81 @@ const Customer = () => {
       options: {
         display: true,
         download: true,
-        filter: true,
         sort: true,
+        filter: true,
+        filterType: "custom",
+        customFilterListOptions: {
+          render: (v) => {
+            if (v[0] && v[1]) return [`Min Mudi: ${v[0]}`, `Max Mudi: ${v[1]}`];
+            else if (v[0]) return `Min Mudi: ${v[0]}`;
+            else if (v[1]) return `Max Mudi: ${v[1]}`;
+            return [];
+          },
+          update(filterList, filterPos, index) {
+            console.log(filterList, filterPos, index);
+            if (filterPos === 0) {
+              filterList[index].splice(filterPos, 1, "");
+            } else if (filterPos === 1) {
+              filterList[index].splice(filterPos, 1);
+            } else if (filterPos === -1) {
+              filterList[index] = [];
+            }
+
+            return filterList;
+          },
+        },
+        filterOptions: {
+          name: [],
+          logic(mudi, filters) {
+            if (filters[0] && filters[1]) {
+              return mudi < filters[0] || mudi > filters[1];
+            } else if (filters[0]) {
+              return mudi < filters[0];
+            } else if (filters[1]) {
+              return mudi > filters[1];
+            }
+            return false;
+          },
+          display: (filterList, onChange, index, column) => (
+            <div>
+              <FormLabel>Mudi</FormLabel>
+              <FormGroup row>
+                <TextField
+                  label="min"
+                  value={filterList[index][0] || ""}
+                  onChange={(event) => {
+                    filterList[index][0] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  style={{ width: "45%", marginRight: "5%" }}
+                />
+                <TextField
+                  label="max"
+                  value={filterList[index][1] || ""}
+                  onChange={(event) => {
+                    filterList[index][1] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  style={{ width: "45%" }}
+                />
+                {/* <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state.ageFilterChecked}
+                      onChange={(event) =>
+                        setState({
+                          ageFilterChecked: event.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Separate Values"
+                  style={{ marginLeft: "0px" }}
+                /> */}
+              </FormGroup>
+            </div>
+          ),
+        },
       },
     },
     {
@@ -171,8 +334,82 @@ const Customer = () => {
       options: {
         display: true,
         download: true,
-        filter: true,
         sort: true,
+        filter: true,
+        filterType: "custom",
+        customFilterListOptions: {
+          render: (v) => {
+            if (v[0] && v[1])
+              return [`Min Intrest: ${v[0]}`, `Max Intrest: ${v[1]}`];
+            else if (v[0]) return `Min Intrest: ${v[0]}`;
+            else if (v[1]) return `Max Intrest: ${v[1]}`;
+            return [];
+          },
+          update(filterList, filterPos, index) {
+            console.log(filterList, filterPos, index);
+            if (filterPos === 0) {
+              filterList[index].splice(filterPos, 1, "");
+            } else if (filterPos === 1) {
+              filterList[index].splice(filterPos, 1);
+            } else if (filterPos === -1) {
+              filterList[index] = [];
+            }
+
+            return filterList;
+          },
+        },
+        filterOptions: {
+          name: [],
+          logic(intrest, filters) {
+            if (filters[0] && filters[1]) {
+              return intrest < filters[0] || intrest > filters[1];
+            } else if (filters[0]) {
+              return intrest < filters[0];
+            } else if (filters[1]) {
+              return intrest > filters[1];
+            }
+            return false;
+          },
+          display: (filterList, onChange, index, column) => (
+            <div>
+              <FormLabel>Intrest</FormLabel>
+              <FormGroup row>
+                <TextField
+                  label="min"
+                  value={filterList[index][0] || ""}
+                  onChange={(event) => {
+                    filterList[index][0] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  style={{ width: "45%", marginRight: "5%" }}
+                />
+                <TextField
+                  label="max"
+                  value={filterList[index][1] || ""}
+                  onChange={(event) => {
+                    filterList[index][1] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  style={{ width: "45%" }}
+                />
+                {/* <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state.ageFilterChecked}
+                      onChange={(event) =>
+                        setState({
+                          ageFilterChecked: event.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Separate Values"
+                  style={{ marginLeft: "0px" }}
+                /> */}
+              </FormGroup>
+            </div>
+          ),
+        },
       },
     },
     {
@@ -181,8 +418,85 @@ const Customer = () => {
       options: {
         display: true,
         download: true,
-        filter: true,
         sort: true,
+        filter: true,
+        filterType: "custom",
+        customFilterListOptions: {
+          render: (v) => {
+            if (v[0] && v[1])
+              return [
+                `Min Sum of Intrest: ${v[0]}`,
+                `Max Sum of Intrest: ${v[1]}`,
+              ];
+            else if (v[0]) return `Min Sum of Intrest: ${v[0]}`;
+            else if (v[1]) return `Max Sum of Intrest: ${v[1]}`;
+            return [];
+          },
+          update(filterList, filterPos, index) {
+            console.log(filterList, filterPos, index);
+            if (filterPos === 0) {
+              filterList[index].splice(filterPos, 1, "");
+            } else if (filterPos === 1) {
+              filterList[index].splice(filterPos, 1);
+            } else if (filterPos === -1) {
+              filterList[index] = [];
+            }
+
+            return filterList;
+          },
+        },
+        filterOptions: {
+          name: [],
+          logic(sum_intrest, filters) {
+            if (filters[0] && filters[1]) {
+              return sum_intrest < filters[0] || sum_intrest > filters[1];
+            } else if (filters[0]) {
+              return sum_intrest < filters[0];
+            } else if (filters[1]) {
+              return sum_intrest > filters[1];
+            }
+            return false;
+          },
+          display: (filterList, onChange, index, column) => (
+            <div>
+              <FormLabel>Sum of Intrest</FormLabel>
+              <FormGroup row>
+                <TextField
+                  label="min"
+                  value={filterList[index][0] || ""}
+                  onChange={(event) => {
+                    filterList[index][0] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  style={{ width: "45%", marginRight: "5%" }}
+                />
+                <TextField
+                  label="max"
+                  value={filterList[index][1] || ""}
+                  onChange={(event) => {
+                    filterList[index][1] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  style={{ width: "45%" }}
+                />
+                {/* <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state.ageFilterChecked}
+                      onChange={(event) =>
+                        setState({
+                          ageFilterChecked: event.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Separate Values"
+                  style={{ marginLeft: "0px" }}
+                /> */}
+              </FormGroup>
+            </div>
+          ),
+        },
       },
     },
     {
@@ -191,8 +505,82 @@ const Customer = () => {
       options: {
         display: true,
         download: true,
-        filter: true,
         sort: true,
+        filter: true,
+        filterType: "custom",
+        customFilterListOptions: {
+          render: (v) => {
+            if (v[0] && v[1])
+              return [`Min Total: ${v[0]}`, `Max Total: ${v[1]}`];
+            else if (v[0]) return `Min Total: ${v[0]}`;
+            else if (v[1]) return `Max Total: ${v[1]}`;
+            return [];
+          },
+          update(filterList, filterPos, index) {
+            console.log(filterList, filterPos, index);
+            if (filterPos === 0) {
+              filterList[index].splice(filterPos, 1, "");
+            } else if (filterPos === 1) {
+              filterList[index].splice(filterPos, 1);
+            } else if (filterPos === -1) {
+              filterList[index] = [];
+            }
+
+            return filterList;
+          },
+        },
+        filterOptions: {
+          name: [],
+          logic(total, filters) {
+            if (filters[0] && filters[1]) {
+              return total < filters[0] || total > filters[1];
+            } else if (filters[0]) {
+              return total < filters[0];
+            } else if (filters[1]) {
+              return total > filters[1];
+            }
+            return false;
+          },
+          display: (filterList, onChange, index, column) => (
+            <div>
+              <FormLabel>Total</FormLabel>
+              <FormGroup row>
+                <TextField
+                  label="min"
+                  value={filterList[index][0] || ""}
+                  onChange={(event) => {
+                    filterList[index][0] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  style={{ width: "45%", marginRight: "5%" }}
+                />
+                <TextField
+                  label="max"
+                  value={filterList[index][1] || ""}
+                  onChange={(event) => {
+                    filterList[index][1] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  style={{ width: "45%" }}
+                />
+                {/* <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state.ageFilterChecked}
+                      onChange={(event) =>
+                        setState({
+                          ageFilterChecked: event.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Separate Values"
+                  style={{ marginLeft: "0px" }}
+                /> */}
+              </FormGroup>
+            </div>
+          ),
+        },
       },
     },
     {
@@ -201,14 +589,91 @@ const Customer = () => {
       options: {
         display: true,
         download: true,
-        filter: true,
         sort: true,
+        filter: true,
+        filterType: "custom",
+        customFilterListOptions: {
+          render: (v) => {
+            // console.log(v);
+            if (v[0] && v[1])
+              return [`Min Jama (Emi): ${v[0]}`, `Max Jama (Emi): ${v[1]}`];
+            else if (v[0]) return `Min Jama (Emi): ${v[0]}`;
+            else if (v[1]) return `Max Jama (Emi): ${v[1]}`;
+            return [];
+          },
+          update(filterList, filterPos, index) {
+            // console.log(filterList, filterPos, index);
+            if (filterPos === 0) {
+              filterList[index].splice(filterPos, 1, "");
+            } else if (filterPos === 1) {
+              filterList[index].splice(filterPos, 1);
+            } else if (filterPos === -1) {
+              filterList[index] = [];
+            }
+
+            return filterList;
+          },
+        },
+        filterOptions: {
+          name: [],
+          logic(jama_credit, filters) {
+            console.log(jama_credit, filters);
+            if (filters[0] && filters[1]) {
+              return jama_credit < filters[0] || jama_credit > filters[1];
+            } else if (filters[0]) {
+              return jama_credit < filters[0];
+            } else if (filters[1]) {
+              return jama_credit > filters[1];
+            }
+            return false;
+          },
+          display: (filterList, onChange, index, column) => (
+            <div>
+              <FormLabel>Jama (EMI)</FormLabel>
+              <FormGroup row>
+                <TextField
+                  label="min"
+                  value={filterList[index][0] || ""}
+                  onChange={(event) => {
+                    filterList[index][0] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  style={{ width: "45%", marginRight: "5%" }}
+                />
+                <TextField
+                  label="max"
+                  value={filterList[index][1] || ""}
+                  onChange={(event) => {
+                    filterList[index][1] = event.target.value;
+                    onChange(filterList[index], index, column);
+                  }}
+                  style={{ width: "45%" }}
+                />
+                {/* <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state.ageFilterChecked}
+                      onChange={(event) =>
+                        setState({
+                          ageFilterChecked: event.target.checked,
+                        })
+                      }
+                    />
+                  }
+                  label="Separate Values"
+                  style={{ marginLeft: "0px" }}
+                /> */}
+              </FormGroup>
+            </div>
+          ),
+        },
       },
     },
     {
       name: "remain",
       label: "Remain",
       options: {
+        filterType: "textField",
         display: true,
         download: true,
         filter: true,
@@ -233,10 +698,10 @@ const Customer = () => {
         },
         filterType: "dropdown",
         filterOptions: {
-          renderValue: (v) => (v == 1 ? "Active" : "Inactive"),
+          renderValue: (v) => (v == 1 ? "Completed" : "Not Complete"),
         },
         customFilterListOptions: {
-          render: (v) => (v == 1 ? "Active" : "Inactive"),
+          render: (v) => (v == 1 ? "Completed" : "Complete"),
         },
         display: true,
         filter: true,
@@ -253,7 +718,7 @@ const Customer = () => {
     {
       label: "Create Date",
       options: {
-        filter: false,
+        filter: true,
       },
     },
     {
@@ -322,7 +787,7 @@ const Customer = () => {
     fixedHeader: true,
     tableBodyHeight: "100%",
     filterType: "dropdown",
-    responsive: "scrollMaxHeight",
+    responsive: "standard",
     rowsPerPageOptions: [10, 20, 50, 100],
     sortOrder: {
       name: "Sr No.",

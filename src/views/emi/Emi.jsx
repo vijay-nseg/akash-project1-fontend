@@ -183,7 +183,7 @@ const Emi = () => {
     fixedHeader: true,
     tableBodyHeight: "100%",
     filterType: "dropdown",
-    responsive: "scrollMaxHeight",
+    responsive: "standard",
     rowsPerPageOptions: [10, 20, 50, 100],
   };
 

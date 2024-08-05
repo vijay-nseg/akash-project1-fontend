@@ -7,6 +7,7 @@ import AuthGuard from 'auth/AuthGuard';
 import Customer from 'views/customer/Customer';
 import CustomerCreate from 'views/customer/CustomerCreate';
 import CustomerUpdate from './CustomerUpdate';
+import TestFilter from './TestFilter';
 
 
 
@@ -27,6 +28,10 @@ const CustomerRoutes = {
         { 
           path: '/customers/edit/:customerId', 
           element: <CustomerUpdate />
+        },
+        { 
+          path: '/filters', 
+          element: <TestFilter />
         },
 
         
