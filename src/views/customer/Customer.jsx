@@ -190,7 +190,7 @@ const Customer = () => {
                   style={{ width: "45%" }}
                   InputLabelProps={{
                     shrink: true,
-                    style: { position: "relative", top: 4, marginRight: 8 },
+                    style: { position: "relative", top: 20, marginRight: 8 },
                   }}
                 />
                 <TextField
@@ -202,6 +202,10 @@ const Customer = () => {
                   }}
                   label="End Date"
                   style={{ width: "45%" }}
+                  InputLabelProps={{
+                    shrink: true,
+                    style: { position: "relative", top: 20, marginRight: 8 },
+                  }}
                 />
                 {/* <FormControlLabel
                   control={
