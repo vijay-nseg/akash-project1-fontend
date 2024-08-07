@@ -887,7 +887,7 @@ const Customer = () => {
       direction: "asc",
     },
   };
-  console.log(data);
+  // console.log(data);
   return (
     <Datatable
       title={title}
